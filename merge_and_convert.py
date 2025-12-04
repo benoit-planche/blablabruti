@@ -3,23 +3,13 @@ Script pour fusionner le LoRA avec le modèle de base et convertir en GGUF
 À exécuter sur la VM après l'entraînement
 """
 from unsloth import FastLanguageModel
-from unsloth.is_pytorch_2_0_plus import is_pytorch_2_0_plus
 import torch
 
 print("🚀 Fusion du LoRA avec le modèle de base...")
 
-# Charger le modèle de base
-print("📥 Chargement du modèle de base...")
-base_model, tokenizer = FastLanguageModel.from_pretrained(
-    model_name="unsloth/mistral-7b-v0.3-bnb-4bit",
-    max_seq_length=2048,
-    dtype=None,
-    load_in_4bit=True,
-)
-
-# Charger l'adapter LoRA
-print("📥 Chargement de l'adapter LoRA...")
-model = FastLanguageModel.from_pretrained(
+# Charger le modèle avec l'adapter LoRA
+print("📥 Chargement du modèle avec l'adapter LoRA...")
+model, tokenizer = FastLanguageModel.from_pretrained(
     model_name="./blablabruti-lora-final",
     max_seq_length=2048,
     dtype=None,
