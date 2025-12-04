@@ -16,18 +16,25 @@ model, tokenizer = FastLanguageModel.from_pretrained(
     load_in_4bit=True,
 )
 
-# Fusionner le LoRA avec le modèle de base
-print("🔗 Fusion du LoRA...")
-model = FastLanguageModel.merge_and_unload(model)
-
-# Sauvegarder le modèle fusionné
-print("💾 Sauvegarde du modèle fusionné...")
-model.save_pretrained_merged(
-    "blablabruti-merged",
-    tokenizer,
-    save_method="merged_16bit",  # Sauvegarde en 16-bit pour économiser l'espace
-)
-tokenizer.save_pretrained("blablabruti-merged")
+# Fusionner le LoRA avec le modèle de base et sauvegarder
+print("🔗 Fusion du LoRA et sauvegarde...")
+# Utiliser la méthode Unsloth qui fusionne et sauvegarde en une seule étape
+# Si save_pretrained_merged ne fonctionne pas, essayez avec merge_and_unload d'abord
+try:
+    # Méthode 1 : Utiliser save_pretrained_merged (recommandé)
+    model.save_pretrained_merged(
+        "blablabruti-merged",
+        tokenizer,
+        save_method="merged_16bit",  # Sauvegarde en 16-bit pour économiser l'espace
+    )
+except AttributeError:
+    # Méthode 2 : Fusionner d'abord, puis sauvegarder
+    print("⚠️  Utilisation de la méthode alternative...")
+    from peft import PeftModel
+    if isinstance(model, PeftModel):
+        model = model.merge_and_unload()
+    model.save_pretrained("blablabruti-merged")
+    tokenizer.save_pretrained("blablabruti-merged")
 
 print("✅ Modèle fusionné sauvegardé dans ./blablabruti-merged")
 print("\n📝 Prochaines étapes :")
