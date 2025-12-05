@@ -219,7 +219,7 @@ except Exception:
     model_name = "blablabruti2"
 
 # Paramètres par défaut
-temperature = 0.85
+temperature = 0.9
 top_p = 0.9
 max_tokens = 512
 
