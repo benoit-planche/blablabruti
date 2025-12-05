@@ -12,6 +12,19 @@ Chat'Bruti est un chatbot philosophe qui ne répond jamais directement aux quest
 
 Ce projet a été développé dans le cadre de la **Nuit de l'Info 2025** pour le défi **Chat'bruti** proposé par Viveris.
 
+## 🔄 Démarche
+
+Dans un premier temps, nous avons tenté une approche de **fine-tuning** en utilisant un **ADAPTER** dans la directive `FROM` du Modelfile. Cette méthode permettait théoriquement d'adapter un modèle de base avec des paramètres spécifiques pour obtenir le comportement désiré de Chat'Bruti.
+
+Cependant, après plusieurs essais, les résultats obtenus n'étaient pas satisfaisants : le modèle ne respectait pas suffisamment les contraintes de personnalité (mélange de langues, obsession des timbres, non-réponse directe aux questions, etc.).
+
+Nous avons donc opté pour une **démarche plus simple et plus efficace** :
+
+- Utilisation directe du modèle **mistral-small:22b** dans la directive `FROM`
+- Spécification détaillée de toutes les consignes de personnalité, de style et de comportement dans la section `SYSTEM` du Modelfile
+
+Cette approche s'est révélée beaucoup plus facile, permettant d'obtenir un Chat'Bruti fidèle à sa personnalité absurde et multilingue, tout en restant simple à maintenir et à ajuster.
+
 ## 🚀 Installation
 
 ### Prérequis
