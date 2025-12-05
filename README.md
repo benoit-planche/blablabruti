@@ -45,11 +45,18 @@ ollama create blablabruti2 -f Modelfile
 
 ### Lancer l'application
 
+**Option 1 : Port par défaut (8501)**
+
 ```bash
 streamlit run app.py
 ```
 
-L'application s'ouvrira automatiquement dans votre navigateur à l'adresse `http://localhost:8501`.
+**Option 2 : Port 80 (nécessite sudo)**
+
+```bash
+# Méthode 3 : Commande directe
+sudo streamlit run app.py --server.port 80 --server.address 0.0.0.0
+```
 
 ### Fonctionnalités
 

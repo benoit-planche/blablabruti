@@ -8,7 +8,7 @@ st.set_page_config(
     page_title="Chat'Bruti - Philosophe Permaculturel",
     page_icon="🌱",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 # Fonction pour générer le CSS selon le thème
@@ -87,6 +87,23 @@ def get_css(theme):
                 direction: rtl;
                 text-align: right;
             }
+            
+            /* Masquer le bouton de toggle de la sidebar par défaut de Streamlit */
+            button[kind="header"] {
+                display: none !important;
+            }
+            
+            [data-testid="stSidebarCollapseButton"],
+            [data-testid="stSidebarExpandButton"],
+            button[data-testid="baseButton-header"],
+            .stApp > header button {
+                display: none !important;
+            }
+            
+            /* Améliorer l'apparence de la sidebar */
+            section[data-testid="stSidebar"] {
+                background-color: #FFFFFF;
+            }
         </style>
         """
     else:  # dark mode
@@ -151,6 +168,23 @@ def get_css(theme):
             
             .stChatInput {
                 background-color: #2D2D2D;
+            }
+            
+            /* Masquer le bouton de toggle de la sidebar par défaut de Streamlit */
+            button[kind="header"] {
+                display: none !important;
+            }
+            
+            [data-testid="stSidebarCollapseButton"],
+            [data-testid="stSidebarExpandButton"],
+            button[data-testid="baseButton-header"],
+            .stApp > header button {
+                display: none !important;
+            }
+            
+            /* Améliorer l'apparence de la sidebar */
+            section[data-testid="stSidebar"] {
+                background-color: #1E1E1E;
             }
         </style>
         """
