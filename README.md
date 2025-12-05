@@ -32,13 +32,13 @@ ollama serve
 3. **Vérifier que le modèle existe** :
 
 ```bash
-ollama list | grep -i chatbruti
+ollama list | grep -i blablabruti
 ```
 
 Si le modèle n'existe pas, créez-le avec :
 
 ```bash
-ollama create chatbruti -f Modelfile
+ollama create blablabruti2 -f Modelfile
 ```
 
 ## 🎯 Utilisation
@@ -81,7 +81,7 @@ L'application s'ouvrira automatiquement dans votre navigateur à l'adresse `http
 
 - **Frontend** : Streamlit
 - **Backend LLM** : Ollama (API locale)
-- **Modèle** : `chatbruti` ou `chatbruiti`
+- **Modèle** : `blablabruti2` (ou `blablabruti`, `chatbruti`, `chatbruiti`)
 - **Python** : 3.8+
 
 ## 🐛 Dépannage
@@ -99,8 +99,8 @@ Si vous voyez "🔴 Ollama non connecté" :
 Si le modèle n'est pas trouvé :
 
 1. Vérifiez les modèles disponibles : `ollama list`
-2. Créez le modèle si nécessaire : `ollama create chatbruti -f Modelfile`
-3. L'interface détectera automatiquement les modèles disponibles
+2. Créez le modèle si nécessaire : `ollama create blablabruti2 -f Modelfile`
+3. L'interface détectera automatiquement les modèles disponibles (priorité à `blablabruti2`)
 
 ### Caractères Unicode non affichés
 

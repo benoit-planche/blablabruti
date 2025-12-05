@@ -67,28 +67,30 @@ with st.sidebar:
         # Extraire les noms de modèles disponibles
         available_models = [model['name'] for model in models.get('models', [])]
         
-        # Filtrer pour ne garder que les modèles chatbruti
-        chatbruti_models = [m for m in available_models if 'chatbruti' in m.lower() or 'chatbruiti' in m.lower()]
+        # Filtrer pour trouver les modèles blablabruti (priorité à blablabruti2)
+        blablabruti_models = [m for m in available_models if 'blablabruti' in m.lower() or 'chatbruti' in m.lower() or 'chatbruiti' in m.lower()]
         
-        if chatbruti_models:
+        # Trier pour mettre blablabruti2 en premier s'il existe
+        if blablabruti_models:
+            blablabruti_models.sort(key=lambda x: (x.lower() != 'blablabruti2', x.lower()))
             model_name = st.selectbox(
                 "Modèle",
-                chatbruti_models,
+                blablabruti_models,
                 index=0
             )
         else:
-            # Si aucun modèle chatbruti trouvé, proposer les modèles disponibles ou des valeurs par défaut
+            # Si aucun modèle blablabruti trouvé, proposer les modèles disponibles ou des valeurs par défaut
             if available_models:
                 model_name = st.selectbox(
                     "Modèle",
                     available_models,
                     index=0
                 )
-                st.warning("⚠️ Aucun modèle chatbruti trouvé. Utilisez un modèle disponible.")
+                st.warning("⚠️ Aucun modèle blablabruti trouvé. Utilisez un modèle disponible.")
             else:
                 model_name = st.selectbox(
                     "Modèle",
-                    ["chatbruti", "chatbruiti", "chatbruti-pro"],
+                    ["blablabruti2", "blablabruti", "chatbruti", "chatbruiti"],
                     index=0
                 )
                 st.warning("⚠️ Modèle non trouvé. Assurez-vous que le modèle existe.")
@@ -97,7 +99,7 @@ with st.sidebar:
         st.error(f"Erreur : {str(e)}")
         model_name = st.selectbox(
             "Modèle",
-            ["chatbruti", "chatbruiti", "chatbruti-pro"],
+            ["blablabruti2", "blablabruti", "chatbruti", "chatbruiti"],
             index=0
         )
         st.info("💡 Assurez-vous qu'Ollama est lancé : `ollama serve`")
