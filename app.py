@@ -11,53 +11,176 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# CSS personnalisé
-st.markdown("""
-<style>
-    .main {
-        background-color: #F0F4EF;
-    }
-    .stTextInput > div > div > input {
-        background-color: #FFFFFF;
-    }
-    h1 {
-        color: #6B8E23;
-        font-family: 'Comic Sans MS', cursive;
-    }
-    .user-message {
-        background-color: #E3F2FD;
-        padding: 15px;
-        border-radius: 10px;
-        margin: 10px 0;
-        text-align: right;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .bot-message {
-        background-color: #E8F5E9;
-        padding: 15px;
-        border-radius: 10px;
-        margin: 10px 0;
-        text-align: left;
-        border-left: 4px solid #6B8E23;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .stChatInput {
-        background-color: #FFFFFF;
-    }
-</style>
-""", unsafe_allow_html=True)
+# Fonction pour générer le CSS selon le thème
+def get_css(theme):
+    if theme == "light":
+        return """
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400&family=Noto+Sans+Arabic:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&family=Noto+Sans+Hebrew:wght@400;700&family=Noto+Sans+SC:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap');
+            
+            * {
+                font-family: 'Noto Sans', 'Noto Sans Arabic', 'Noto Sans Devanagari', 'Noto Sans Hebrew', 'Noto Sans SC', 'Noto Sans TC', 'Arial Unicode MS', 'Segoe UI', sans-serif !important;
+            }
+            
+            body, .stApp {
+                color: #2C3E50 !important;
+            }
+            
+            .main {
+                background-color: #FFFFFF;
+            }
+            
+            .stApp {
+                background-color: #FFFFFF;
+            }
+            
+            .stTextInput > div > div > input {
+                background-color: #FFFFFF;
+                font-family: 'Noto Sans', 'Noto Sans Arabic', 'Noto Sans Devanagari', 'Noto Sans Hebrew', 'Noto Sans SC', 'Noto Sans TC', 'Arial Unicode MS', sans-serif !important;
+            }
+            
+            h1 {
+                color: #6B8E23;
+                font-family: 'Comic Sans MS', 'Noto Sans', cursive;
+            }
+            
+            .user-message {
+                background-color: #E3F2FD;
+                color: #1A237E;
+                padding: 15px;
+                border-radius: 10px;
+                margin: 10px 0;
+                text-align: right;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                font-family: 'Noto Sans', 'Noto Sans Arabic', 'Noto Sans Devanagari', 'Noto Sans Hebrew', 'Noto Sans SC', 'Noto Sans TC', 'Arial Unicode MS', sans-serif !important;
+                font-size: 17px;
+                line-height: 1.8;
+                word-wrap: break-word;
+                direction: ltr;
+                letter-spacing: 0.3px;
+            }
+            
+            .bot-message {
+                background-color: #FFFFFF;
+                color: #2C3E50;
+                padding: 15px;
+                border-radius: 10px;
+                margin: 10px 0;
+                text-align: left;
+                border-left: 4px solid #6B8E23;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                font-family: 'Noto Sans', 'Noto Sans Arabic', 'Noto Sans Devanagari', 'Noto Sans Hebrew', 'Noto Sans SC', 'Noto Sans TC', 'Arial Unicode MS', sans-serif !important;
+                font-size: 17px;
+                line-height: 1.8;
+                word-wrap: break-word;
+                direction: ltr;
+                white-space: pre-wrap;
+                letter-spacing: 0.3px;
+            }
+            
+            .stChatInput {
+                background-color: #FFFFFF;
+            }
+            
+            /* Support pour les caractères RTL (arabe, hébreu) */
+            .rtl-text {
+                direction: rtl;
+                text-align: right;
+            }
+        </style>
+        """
+    else:  # dark mode
+        return """
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400&family=Noto+Sans+Arabic:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&family=Noto+Sans+Hebrew:wght@400;700&family=Noto+Sans+SC:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap');
+            
+            * {
+                font-family: 'Noto Sans', 'Noto Sans Arabic', 'Noto Sans Devanagari', 'Noto Sans Hebrew', 'Noto Sans SC', 'Noto Sans TC', 'Arial Unicode MS', 'Segoe UI', sans-serif !important;
+            }
+            
+            .main {
+                background-color: #1E1E1E;
+            }
+            
+            .stApp {
+                background-color: #1E1E1E;
+            }
+            
+            .stTextInput > div > div > input {
+                background-color: #2D2D2D;
+                color: #FFFFFF;
+                font-family: 'Noto Sans', 'Noto Sans Arabic', 'Noto Sans Devanagari', 'Noto Sans Hebrew', 'Noto Sans SC', 'Noto Sans TC', 'Arial Unicode MS', sans-serif !important;
+            }
+            
+            h1 {
+                color: #8BC34A;
+                font-family: 'Comic Sans MS', 'Noto Sans', cursive;
+            }
+            
+            .user-message {
+                background-color: #1E3A5F;
+                color: #FFFFFF;
+                padding: 15px;
+                border-radius: 10px;
+                margin: 10px 0;
+                text-align: right;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                font-family: 'Noto Sans', 'Noto Sans Arabic', 'Noto Sans Devanagari', 'Noto Sans Hebrew', 'Noto Sans SC', 'Noto Sans TC', 'Arial Unicode MS', sans-serif !important;
+                font-size: 16px;
+                line-height: 1.6;
+                word-wrap: break-word;
+                direction: ltr;
+            }
+            
+            .bot-message {
+                background-color: #2D2D2D;
+                color: #E0E0E0;
+                padding: 15px;
+                border-radius: 10px;
+                margin: 10px 0;
+                text-align: left;
+                border-left: 4px solid #8BC34A;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                font-family: 'Noto Sans', 'Noto Sans Arabic', 'Noto Sans Devanagari', 'Noto Sans Hebrew', 'Noto Sans SC', 'Noto Sans TC', 'Arial Unicode MS', sans-serif !important;
+                font-size: 16px;
+                line-height: 1.6;
+                word-wrap: break-word;
+                direction: ltr;
+                white-space: pre-wrap;
+            }
+            
+            .stChatInput {
+                background-color: #2D2D2D;
+            }
+        </style>
+        """
+
+# Initialisation de l'historique de conversation et du thème
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+if "theme" not in st.session_state:
+    st.session_state.theme = "light"  # light ou dark
+
+# Appliquer le CSS selon le thème
+st.markdown(get_css(st.session_state.theme), unsafe_allow_html=True)
 
 # Titre principal
 st.title("🌱 Chat'Bruti - Le Philosophe Permaculturel Absurde")
 st.markdown("*Αχ, Bonjour! Готов говорить о комpost ? 🍄*")
 
-# Initialisation de l'historique de conversation
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-
 # Sidebar - Paramètres
 with st.sidebar:
     st.header("⚙️ Paramètres")
+    
+    # Toggle pour le thème
+    theme_options = {"light": "☀️ Mode clair", "dark": "🌙 Mode sombre"}
+    current_theme_label = theme_options[st.session_state.theme]
+    
+    if st.button(current_theme_label, use_container_width=True):
+        st.session_state.theme = "dark" if st.session_state.theme == "light" else "light"
+        st.rerun()
+    
+    st.divider()
     
     # Vérifier la connexion Ollama
     try:
@@ -140,10 +263,14 @@ with chat_container:
     
     for message in st.session_state.messages:
         if message["role"] == "user":
-            st.markdown(f'<div class="user-message">👤 <strong>Vous :</strong><br>{message["content"]}</div>', 
+            # Échapper le HTML pour éviter les problèmes de sécurité
+            content = message["content"].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            st.markdown(f'<div class="user-message">👤 <strong>Vous :</strong><br>{content}</div>', 
                        unsafe_allow_html=True)
         else:
-            st.markdown(f'<div class="bot-message">🌱 <strong>Chat\'Bruti :</strong><br>{message["content"]}</div>', 
+            # Échapper le HTML et préserver les sauts de ligne
+            content = message["content"].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            st.markdown(f'<div class="bot-message">🌱 <strong>Chat\'Bruti :</strong><br>{content}</div>', 
                        unsafe_allow_html=True)
 
 # Input utilisateur
@@ -155,7 +282,9 @@ if user_input:
     
     # Afficher le message utilisateur immédiatement
     with chat_container:
-        st.markdown(f'<div class="user-message">👤 <strong>Vous :</strong><br>{user_input}</div>', 
+        # Échapper le HTML
+        escaped_input = user_input.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        st.markdown(f'<div class="user-message">👤 <strong>Vous :</strong><br>{escaped_input}</div>', 
                    unsafe_allow_html=True)
     
     # Préparer les messages pour Ollama
