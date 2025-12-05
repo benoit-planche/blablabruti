@@ -168,10 +168,29 @@ st.markdown(get_css(st.session_state.theme), unsafe_allow_html=True)
 st.title("🌱 Chat'Bruti - Le Philosophe Permaculturel Absurde")
 st.markdown("*Αχ, Bonjour! Готов говорить о комpost ? 🍄*")
 
-# Sidebar - Paramètres
-with st.sidebar:
-    st.header("⚙️ Paramètres")
+# Configuration par défaut du modèle
+try:
+    models = ollama.list()
+    available_models = [model['name'] for model in models.get('models', [])]
+    blablabruti_models = [m for m in available_models if 'blablabruti' in m.lower() or 'chatbruti' in m.lower() or 'chatbruiti' in m.lower()]
     
+    if blablabruti_models:
+        blablabruti_models.sort(key=lambda x: (x.lower() != 'blablabruti2', x.lower()))
+        model_name = blablabruti_models[0]
+    elif available_models:
+        model_name = available_models[0]
+    else:
+        model_name = "blablabruti2"
+except Exception:
+    model_name = "blablabruti2"
+
+# Paramètres par défaut
+temperature = 0.85
+top_p = 0.9
+max_tokens = 512
+
+# Sidebar - Options simples
+with st.sidebar:
     # Toggle pour le thème
     theme_options = {"light": "☀️ Mode clair", "dark": "🌙 Mode sombre"}
     current_theme_label = theme_options[st.session_state.theme]
@@ -181,74 +200,6 @@ with st.sidebar:
         st.rerun()
     
     st.divider()
-    
-    # Vérifier la connexion Ollama
-    try:
-        models = ollama.list()
-        st.success("🟢 Ollama connecté")
-        
-        # Extraire les noms de modèles disponibles
-        available_models = [model['name'] for model in models.get('models', [])]
-        
-        # Filtrer pour trouver les modèles blablabruti (priorité à blablabruti2)
-        blablabruti_models = [m for m in available_models if 'blablabruti' in m.lower() or 'chatbruti' in m.lower() or 'chatbruiti' in m.lower()]
-        
-        # Trier pour mettre blablabruti2 en premier s'il existe
-        if blablabruti_models:
-            blablabruti_models.sort(key=lambda x: (x.lower() != 'blablabruti2', x.lower()))
-            model_name = st.selectbox(
-                "Modèle",
-                blablabruti_models,
-                index=0
-            )
-        else:
-            # Si aucun modèle blablabruti trouvé, proposer les modèles disponibles ou des valeurs par défaut
-            if available_models:
-                model_name = st.selectbox(
-                    "Modèle",
-                    available_models,
-                    index=0
-                )
-                st.warning("⚠️ Aucun modèle blablabruti trouvé. Utilisez un modèle disponible.")
-            else:
-                model_name = st.selectbox(
-                    "Modèle",
-                    ["blablabruti2", "blablabruti", "chatbruti", "chatbruiti"],
-                    index=0
-                )
-                st.warning("⚠️ Modèle non trouvé. Assurez-vous que le modèle existe.")
-    except Exception as e:
-        st.error("🔴 Ollama non connecté")
-        st.error(f"Erreur : {str(e)}")
-        model_name = st.selectbox(
-            "Modèle",
-            ["blablabruti2", "blablabruti", "chatbruti", "chatbruiti"],
-            index=0
-        )
-        st.info("💡 Assurez-vous qu'Ollama est lancé : `ollama serve`")
-    
-    st.divider()
-    
-    temperature = st.slider("Temperature", 0.0, 1.0, 0.85, 0.05)
-    top_p = st.slider("Top P", 0.0, 1.0, 0.9, 0.05)
-    max_tokens = st.slider("Max tokens", 50, 1000, 512, 50)
-    
-    st.divider()
-    
-    st.header("📊 Informations")
-    st.metric("Messages", len(st.session_state.messages))
-    st.metric("Modèle actif", model_name)
-    
-    st.divider()
-    
-    st.header("ℹ️ À propos")
-    st.markdown("""
-    **Chat'Bruti** est un philosophe absurde obsédé par la permaculture.
-    
-    Il ne répond JAMAIS directement aux questions et mélange constamment les langues.
-    
-    Profite de sa sagesse... discutable ! 🌿
-    """)
     
     if st.button("🔄 Nouvelle conversation", use_container_width=True):
         st.session_state.messages = []
